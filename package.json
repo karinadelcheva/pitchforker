@@ -1,0 +1,33 @@
+{
+  "name": "pitchforker",
+  "version": "1.0.0",
+  "description": "An easy middleware for JS/ TS apps who want to interact with the Pitchfork API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/karinadelcheva/pitchforker.git"
+  },
+  "keywords": [
+    "js",
+    "ts",
+    "pitchfork",
+    "node",
+    "axios",
+    "express"
+  ],
+  "author": "Karina Delcheva",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karinadelcheva/pitchforker/issues"
+  },
+  "homepage": "https://github.com/karinadelcheva/pitchforker#readme",
+  "dependencies": {
+    "html-to-text": "5.x"
+  },
+  "devDependencies": {
+    "axios": "^0.26.1"
+  }
+}
