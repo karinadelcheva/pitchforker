@@ -1,6 +1,6 @@
 {
   "name": "pitchforker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An easy middleware for JS/ TS apps who want to interact with the Pitchfork API.",
   "main": "index.js",
   "scripts": {
