@@ -87,7 +87,7 @@ function parseUrls(data, verbose) {
     return reviews;
 }
 
-function query(options, callback) {
+module.exports.query = function query(options, callback) {
     let genre = '', start = 0, size = 1, sort = 'asc', verbose = false;
     if ('genre' in options) {
         if (genres.includes(options.genre)) {
