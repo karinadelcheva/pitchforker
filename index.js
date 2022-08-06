@@ -1,41 +1,35 @@
-const axios = require('axios').default;
+const request = require('request');
 const htmlToText = require('html-to-text');
 
 var genres = ['electronic', 'experimental', 'folk', 'global', 'jazz', 'metal', 'pop', 'rap', 'rock'];
-const baseUrl = 'https://pitchfork.com/api/v2';
 
 function apiSearchQuery(genre, start, size, sort) {
     return new Promise((resolve, reject) => {
-        var url = `${baseUrl}search/?types=reviews&hierarchy=channels%2Freviews%2Falbums&sort=rating%20${sort}%2Cposition%20asc&rating_from=0.0`;
-        
-        try {
-            const response = await axios.get(url, {
-                params: {
-                'genre': genre,
-                'size': size, 
-                'start=': start
-            }});
-            resolve(response);
+        var url = 'https://pitchfork.com/api/v2/search/?types=reviews&hierarchy=channels%2Freviews%2Falbums&sort=rating%20' + sort + '%2Cposition%20asc&rating_from=0.0';
+        if (genre != '') {
+            url += '&genre=';
         }
-        catch {
-            reject(e);
-
-        }
-        
+        request(url + genre + '&size=' + size + '&start=' + start, function (err, res, data) {
+            if (err) return reject(err);
+            try {
+                resolve(JSON.parse(data));
+            } catch (e) {
+                reject(e);
+            }
+        });
     });
 }
 
 function apiReviewQuery(url) {
     return new Promise((resolve, reject) => {
-
-        try {
-            const response = await axios.get(`${baseUrl}${url}`);
-            resolve(htmlToText.fromString(JSON.parse(data).results[0].body.en, { wordwrap: false }));
-
-        }
-        catch (e) {
+        request('https://pitchfork.com/api/v2' + url, function (err, res, data) {
+            if (err) return reject(err);
+            try {
+                resolve(htmlToText.fromString(JSON.parse(data).results[0].body.en, { wordwrap: false }));
+            } catch (e) {
                 reject(e);
             }
+        });
     });
 }
 
@@ -93,13 +87,13 @@ function parseUrls(data, verbose) {
     return reviews;
 }
 
-module.exports.query = function query(options, callback) {
+function query(options, callback) {
     let genre = '', start = 0, size = 1, sort = 'asc', verbose = false;
     if ('genre' in options) {
         if (genres.includes(options.genre)) {
             genre = options.genre;
         } else {
-            callback(new Error(`Genre is invalid. Select one of the following genres: ${genres}`))
+            callback(new Error('genre must be valid.'))
             return;
         }
     }
@@ -111,7 +105,7 @@ module.exports.query = function query(options, callback) {
     }
     if ('sort' in options) {
         if (sort != 'asc' && sort != 'desc') {
-            callback(new Error('Sort must be string: "asc" or "desc".'))
+            callback(new Error('sort must be "asc" or "desc".'))
             return;
         } else {
             sort = options.sort;
@@ -121,7 +115,7 @@ module.exports.query = function query(options, callback) {
         if (typeof options.verbose === "boolean") {
             verbose = options.verbose;
         } else {
-            callback(new Error('Verbose must be a boolean.'));
+            callback(new Error('verbose must be a boolean.'));
             return;
         }
     }
