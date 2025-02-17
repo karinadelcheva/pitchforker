@@ -1,3 +1,5 @@
+# THIS API IS NO LONGER SUPPORTED AND WON'T WORK ON NEW WEBSITE FRONTEND.
+
 # Pitchfork API
 
 Unofficial Pitchfork API for scraping review text. Hugely influenced by the `pitchfork-api`, it's essentially an update on that. Many thanks to the great developers before us.
